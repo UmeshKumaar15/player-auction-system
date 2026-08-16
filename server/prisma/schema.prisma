@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("TEAM") // ADMIN or TEAM
+  teamId    String?  @unique
+  team      Team?    @relation(fields: [teamId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Team {
+  id            String   @id @default(uuid())
+  name          String   @unique
+  color         String?
+  logo          String?
+  initialPurse  Int      @default(0)
+  remainingPurse Int     @default(0)
+  user          User?
+  players       Player[]
+  bids          Bid[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Player {
+  id             String   @id @default(uuid())
+  name           String
+  photo          String?
+  role           String   @default("Batsman") // e.g., Batsman, Bowler, All-Rounder
+  basePrice      Int
+  status         String   @default("AVAILABLE") // AVAILABLE, SOLD, UNSOLD
+  teamId         String?
+  team           Team?    @relation(fields: [teamId], references: [id])
+  bids           Bid[]
+  age            Int?
+  nationality    String?
+  country        String?
+  category       String?
+  statistics     String?
+  overallRating  Float?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Bid {
+  id        String   @id @default(uuid())
+  amount    Int
+  playerId  String
+  player    Player   @relation(fields: [playerId], references: [id])
+  teamId    String
+  team      Team     @relation(fields: [teamId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model AuctionSettings {
+  id              String   @id @default(uuid())
+  currentPlayerId String?
+  currentBid      Int      @default(0)
+  highestBidderId String?
+  status          String   @default("PENDING") // PENDING, ACTIVE, PAUSED, COMPLETED
+  isPaused        Boolean  @default(false)
+  bidIncrement    Int      @default(5000)
+  timer           Int      @default(30)
+  updatedAt       DateTime @updatedAt
+}
