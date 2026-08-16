@@ -18,7 +18,7 @@ export default function TeamDashboard() {
   const navigate = useNavigate();
 
   const fetchTeamData = async (teamId: string) => {
-    const teamsRes = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}//api/auction/teams`);
+    const teamsRes = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/auction/teams`);
     const myTeam = teamsRes.data.find((t: any) => t.id === teamId);
     if (myTeam) {
       setTeam(myTeam);
@@ -37,7 +37,7 @@ export default function TeamDashboard() {
     fetchTeamData(user.team.id);
 
     const fetchData = async () => {
-      const stateRes = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}//api/auction/state`);
+      const stateRes = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/auction/state`);
       setAuctionState(stateRes.data);
       if (stateRes.data.settings) setTimer(stateRes.data.settings.timer);
     };

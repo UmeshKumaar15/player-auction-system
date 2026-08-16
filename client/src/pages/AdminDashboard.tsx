@@ -24,11 +24,11 @@ export default function AdminDashboard() {
 
   const fetchData = async () => {
     const [playersRes, statsRes, stateRes, teamsRes, usersRes] = await Promise.all([
-      axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}//api/auction/players`),
-      axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}//api/auction/stats`),
-      axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}//api/auction/state`),
-      axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}//api/auction/teams`),
-      axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}//api/auction/users`)
+      axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/auction/players`),
+      axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/auction/stats`),
+      axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/auction/state`),
+      axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/auction/teams`),
+      axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/auction/users`)
     ]);
     setPlayers(playersRes.data);
     setStats(statsRes.data);
@@ -92,7 +92,7 @@ export default function AdminDashboard() {
   const handleCreateTeam = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}//api/auction/teams`, newTeam);
+      await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/auction/teams`, newTeam);
       showMessage('Team created successfully!');
       setNewTeam({ name: '', color: '#000000', initialPurse: '' });
       fetchData();
@@ -109,7 +109,7 @@ export default function AdminDashboard() {
   const handleCreateUser = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}//api/auction/users`, newUser);
+      await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/auction/users`, newUser);
       showMessage('User created successfully!');
       setNewUser({ email: '', password: '', name: '', teamId: '' });
       fetchData();
@@ -126,7 +126,7 @@ export default function AdminDashboard() {
   const handleCreatePlayer = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}//api/auction/players`, newPlayer);
+      await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/auction/players`, newPlayer);
       showMessage('Player created successfully!');
       setNewPlayer({ name: '', role: 'Batsman', basePrice: '', age: '', country: '', category: '', photoUrl: '' });
       fetchData();
@@ -159,7 +159,7 @@ export default function AdminDashboard() {
       });
 
       try {
-        const res = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}//api/auction/players/bulk`, { players: playersData });
+        const res = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/auction/players/bulk`, { players: playersData });
         showMessage(`Successfully uploaded ${res.data.count} players!`);
         fetchData();
       } catch (err) {

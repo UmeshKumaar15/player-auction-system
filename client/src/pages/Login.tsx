@@ -14,7 +14,7 @@ export default function Login() {
     setError('');
     
     try {
-      const res = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}//api/auth/login`, {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/auth/login`, {
         email, password
       });
       
@@ -27,8 +27,8 @@ export default function Login() {
       } else {
         navigate('/team');
       }
-    } catch (err) {
-      setError('Invalid credentials');
+    } catch (err: any) {
+      setError(err.response?.data?.error || 'Invalid credentials or Network Error');
     }
   };
 
